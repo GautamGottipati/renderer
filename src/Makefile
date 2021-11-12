@@ -3,8 +3,8 @@ build:
 	-Wfatal-errors \
 	-std=c99 \
 	./*.c \
-	-I"D:\Gautam\libsdl\include" \
-	-L"D:\Gautam\libsdl\lib" \
+	-I"D:\\Gautam\\libsdl\\include" \
+	-L"D:\\Gautam\\libsdl\\lib" \
 	-lmingw32 \
 	-lSDL2main \
 	-lSDL2 \
