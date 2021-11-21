@@ -24,7 +24,7 @@
 
 triangle_t* triangles_to_render = NULL;
 
-vect3_t camara_position = { .x = 0,.y = 0,.z = -5 };
+vect3_t camara_position = { .x = 0,.y = 0,.z = 0 }; //{ .x = 0,.y = 0,.z = -5 };
 
 // vect3_t cube_rotation = { .x = 0, .y = 0, .z = 0 };
 
@@ -67,7 +67,7 @@ void setup(void) {
 
 	//load_cube_mesh_data();
 
-	load_obj_file_data("..\\assets\\efa.obj");
+	load_obj_file_data("..\\assets\\cube.obj");
 
 	//int point_count = 0;
 
@@ -146,6 +146,8 @@ void update(void) {
 
 		triangle_t projected_triangle;
 
+		vect3_t transformed_vertices[3];
+
 		// Loop all three vertices of this current face and apply transformations
 		for (int j = 0; j < 3; j++) {
 			vect3_t transformed_vertex = face_vertices[j];
@@ -154,10 +156,51 @@ void update(void) {
 			transformed_vertex = vec3_rotate_z(transformed_vertex, mesh.rotation.z);
 
 			// Move the points away from the camera
-			transformed_vertex.z -= camara_position.z;
+			transformed_vertex.z  += 5;//-= camara_position.z;
 
+			// Save the current vertex in the array of transformed vertices.
+			transformed_vertices[j] = transformed_vertex;
+		}
+
+		// TODO: Check backface culling | NOTE : My vertices are clockwise.
+		vect3_t vector_a = transformed_vertices[0];
+		vect3_t vector_b = transformed_vertices[1];
+		vect3_t vector_c = transformed_vertices[2];
+
+		// Get the vector subtaction of B-A and C-A
+		vect3_t vector_ab = vec3_sub(vector_b, vector_a);
+		vect3_t vector_ac = vec3_sub(vector_c, vector_a);
+
+		// Compute the face normal ( using cross product to find perpendicular )
+		/*
+			- Since, we are using Left handed system (means, the z axis grows inside the screen), we have to do AB X AC 
+			- If we use Right handed System, we should use AC X AB
+			            A
+					   / \
+					  C---B
+		*/
+		vect3_t normal = vec3_cross(vector_ab, vector_ac);
+
+		//  Find the vector between a point in the triangle and the camera origin
+		vect3_t camera_ray = vec3_sub(camara_position, vector_a);
+
+		//  Calculate how align the camera ray is with the face normal ( using dot product )
+
+		float align_value = vec3_dot(camera_ray, normal);
+
+		// Bypass the triangles that are looking away from the triangle
+		if(align_value < 0) continue;
+
+
+
+
+
+
+
+		// Loop all the three vertices to perform the projection
+		for(int j=0; j<3; j++){
 			// project the point
-			vect2_t projected_point = project(transformed_vertex);
+			vect2_t projected_point = project(transformed_vertices[j]);
 
 			// Scale and translate the projected points to the middle of the screen
 			projected_point.x += (window_width / 2);
