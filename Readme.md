@@ -12,4 +12,4 @@ This engine is Left handed Engine, means the z axis grows inside the screen
 
 With Back Face Culling
 
-![cube wireframe](https://github.com/GautamGottipati/renderer/blob/33f038de1ed455916eb257ac77380caede685675/assets/back_face_culling.gif =250x250)
+<img src="https://github.com/GautamGottipati/renderer/blob/33f038de1ed455916eb257ac77380caede685675/assets/back_face_culling.gif" width="250" height="250" alt="cube wireframe"/>
