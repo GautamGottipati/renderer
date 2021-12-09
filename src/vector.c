@@ -27,6 +27,27 @@ vect2_t vec2_sub(vect2_t a, vect2_t b){
 	return result;
 }
 
+vect2_t vec2_mul(vect2_t v, float factor){
+	vect2_t result = {
+		.x = v.x * factor,
+		.y = v.y * factor
+	};
+
+	return result;
+}
+
+vect2_t vec2_div(vect2_t v, float factor){
+	vect2_t result = {
+		.x = v.x / factor,
+		.y = v.y / factor
+	};
+
+	return result;
+}
+
+float vec2_dot(vect2_t a, vect2_t b){
+	return (a.x * b.x) + (a.y * b.y);
+}
 
 ///////////////////////////////////////////////////////
 // Implementation of Vector 3D functions
@@ -80,4 +101,38 @@ vect3_t vec3_sub(vect3_t a, vect3_t b){
 		.z = a.z - b.z
 	};
 	return result;
+}
+
+vect3_t vec3_mul(vect3_t v, float factor){
+	vect3_t result = {
+		.x = v.x * factor,
+		.y = v.y * factor,
+		.z = v.z * factor
+	};
+
+	return result;
+}
+
+vect3_t vec3_div(vect3_t v, float factor){
+	vect3_t result = {
+		.x = v.x / factor,
+		.y = v.y / factor,
+		.z = v.z / factor
+	};
+
+	return result;
+}
+
+vect3_t vec3_cross(vect3_t a, vect3_t b){
+	vect3_t result = {
+		.x = a.y * b.z - a.z * b.y,
+		.y = a.z * b.x - a.x * b.z,
+		.z = a.x * b.y - a.y * b.x
+	};
+
+	return result;
+}
+
+float vec3_dot(vect3_t a, vect3_t b){
+	return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
 }
